@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/08/30 18:55:30 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:45:11 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define PIPEX_H
 
 # include "libft/libft.h"
+# include <sys/wait.h>
 
 #endif

@@ -6,13 +6,13 @@
 #    By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 18:53:41 by yboumanz          #+#    #+#              #
-#    Updated: 2024/08/30 18:53:51 by yboumanz         ###   ########.fr        #
+#    Updated: 2024/09/06 11:03:57 by yboumanz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS =	
+SRCS =
 
 OBJS = $(SRCS:.c=.o)
 
@@ -20,7 +20,7 @@ LIBDIR = libft
 LIB = $(LIBDIR)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

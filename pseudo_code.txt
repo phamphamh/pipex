@@ -1,0 +1,16 @@
+
+//  < file1 cmd1 | cmd2 > file2
+// recu en arg = file1 cmd1 cmd2 file2
+
+- fork les deux commandes, pour qu'elles aient leur propre entrees
+- creer un process puis execve pour exec la commandes
+faudra verifier si a chaque arg de commande, y a des autres arguments style
+ls -l et bien les separer.
+- puis pipe les deux process
+
+METTRE DES VERIFS PARTOUT APRES LE PSEUDO CODE
+
+execve - arg1 - trouver le path
+env - recuperer le PATH=
+split tous les path jusqua :, join avec le path + /ls et tester avec acces
+meme si je trouve pas de path, renvoyer quand meme rien et execve va envoyer une erreur.
