@@ -14,3 +14,13 @@ execve - arg1 - trouver le path
 env - recuperer le PATH=
 split tous les path jusqua :, join avec le path + /ls et tester avec acces
 meme si je trouve pas de path, renvoyer quand meme rien et execve va envoyer une erreur.
+gerer tous les free.
+
+tests :
+
+je ne prends pas les chemins absolus
+et je dois traiter les arguments des commandes
+ex : ls -a marche mais pas grep '1' qui doit mettre en argument ce quil cherche
+
+question : si jmet une commande de merde j laisse cmd_path : no such file or dir
+ou jmets commande introuvable.

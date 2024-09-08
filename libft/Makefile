@@ -6,7 +6,7 @@
 #    By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/16 18:57:21 by yboumanz          #+#    #+#              #
-#    Updated: 2024/08/30 16:50:54 by yboumanz         ###   ########.fr        #
+#    Updated: 2024/09/08 03:25:23 by yboumanz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS =	ft_atoi.c ft_lstadd_back.c ft_memchr.c ft_split.c ft_strncmp.c \
 		ft_isprint.c ft_lstnew.c ft_putnbr_fd.c ft_strlen.c \
 		ft_itoa.c ft_lstsize.c ft_putstr_fd.c ft_strmapi.c get_next_line.c \
 		get_next_line_utils.c ft_print_adress.c ft_printf.c \
-		ft_printf_tools.c ft_strncmp.c \
+		ft_printf_tools.c ft_strncmp.c ft_free_all.c\
 
 OBJS = $(SRCS:.c=.o)
 

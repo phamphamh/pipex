@@ -1,0 +1,63 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
+/*   Updated: 2024/09/08 02:39:57 by yboumanz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+char	*find_path(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strcmp_env("PATH=", env[i]))
+			return(env[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*join_paths(char **paths, char *cmd)
+{
+	int		i;
+	char	*path;
+	char	*full_path;
+
+	i = 0;
+	while (paths[i])
+	{
+		full_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(full_path, cmd);
+		free(full_path);
+		if (access(path, X_OK) == 0)
+		{
+			free_all(paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	free_all(paths);
+	return (NULL);
+}
+
+char	*check_path(char *cmd, char **env)
+{
+	char	*path;
+	char	**paths;
+
+	path = find_path(env);
+	if (!path)
+		return(NULL);
+	paths = ft_split(path + 5, ':');
+	return (join_paths(paths, cmd));
+}

@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 13:24:12 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/07 21:08:50 by yboumanz         ###   ########.fr       */
+/*   Created: 2024/09/08 03:18:52 by yboumanz          #+#    #+#             */
+/*   Updated: 2024/09/08 03:20:07 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	init_split_vars(size_t *i, size_t *j, int *index)
 {
-	unsigned int	i;
+	*i = 0;
+	*j = 0;
+	*index = -1;
+}
 
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
+void	init_quotes(int *in_single_quotes, int *in_double_quotes)
+{
+	*in_single_quotes = 0;
+	*in_double_quotes = 0;
 }

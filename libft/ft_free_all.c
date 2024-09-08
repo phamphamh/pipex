@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_free_all.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 13:24:12 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/07 21:08:50 by yboumanz         ###   ########.fr       */
+/*   Created: 2024/09/08 03:03:03 by yboumanz          #+#    #+#             */
+/*   Updated: 2024/09/08 03:06:09 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+char	**ft_free_all(char **split, size_t j)
 {
-	unsigned int	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return (0);
+	while (j > 0)
+		free(split[j--]);
+	free(split);
+	return (NULL);
 }

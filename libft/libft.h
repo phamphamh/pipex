@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:00:54 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/08/17 00:19:48 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/08 03:25:15 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*create_line(char *buffer);
 char	*read_line(char *buffer, int fd);
 char	*ft_free(char *buff, char *tmp);
 
+char	**ft_free_all(char **split, size_t j);
 char	*ft_strchr(const char *str, int c);
 void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(const char *str);
@@ -107,6 +108,9 @@ int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 void	*ft_memchr(const void *s, int c, size_t n);
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+
+
+
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 
