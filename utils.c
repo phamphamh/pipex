@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/08 03:14:08 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:40:01 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,42 @@ void	free_all(char **split)
 	free(split);
 }
 
+bool	only_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] != ' ')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	handle_error(char *message)
 {
 	perror(message);
 	exit(EXIT_FAILURE);
+}
+
+bool	find_count_exe(char **argv, int argc)
+{
+	int i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	printf("%s", argv[0]);
+	while (argv[i])
+	{
+		if (!ft_strcmp("./pipex", argv[i]))
+			res = i;
+		i++;
+	}
+	printf("%d", i);
+	if ((argc - i) != 5)
+		return (0);
+	return (1);
 }

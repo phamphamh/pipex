@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/08 03:40:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:23:23 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,26 @@ void	init_things(t_pip *struc, char **env, char **argv)
 		exit (EXIT_FAILURE);
 	}
 }
+
+void	parse_args(char **argv, int argc)
+{
+	if (!find_count_exe(argv, argc))
+		handle_error("usage: ./pipex file1 cmd1 cmd2 file2");
+	if (!argv[2] || only_space(argv[2]) || argv[2][0] == '\0')
+		handle_error("Please add a command as second arg");
+	if (!argv[3] || only_space(argv[3]) || argv[3][0] == '\0')
+		handle_error("Please add a command as third arg");
+}
 int	main(int argc, char **argv, char **env)
 {
 	t_pip	struc;
 
-	if (argc < 5)
-		handle_error("usage: ./pipex file1 cmd1 cmd2 file2");
+	//parse_args(argv, argc);
+	(void)argc;
 	init_things(&struc, env, argv);
 	struc.pids[0] = handle_child_1(&struc);
-	struc.pids[1] = handle_child_2(&struc);
+	if (struc.pids[0])
+		struc.pids[1] = handle_child_2(&struc);
 	close(struc.pipe_tab[0]);
 	close(struc.pipe_tab[1]);
 	if (struc.pids[0] > 0 && struc.pids[1] > 0)

@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/08 03:20:59 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:32:00 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 typedef struct s_pip
 {
@@ -42,5 +43,7 @@ void	init_things(t_pip *struc, char **env, char **argv);
 char	**ft_split(char const *s, char c);
 void	init_quotes(int *in_single_quotes, int *in_double_quotes);
 void	init_split_vars(size_t *i, size_t *j, int *index);
+bool	only_space(char *str);
+bool	find_count_exe(char **argv, int argc);
 
 #endif

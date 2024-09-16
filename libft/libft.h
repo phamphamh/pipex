@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:00:54 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/08 03:25:15 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:33:12 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,6 @@ int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 void	*ft_memchr(const void *s, int c, size_t n);
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
-
-
-
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 
