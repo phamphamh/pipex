@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/16 20:23:23 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:15:14 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,31 @@ void	init_things(t_pip *struc, char **env, char **argv)
 
 	struc->argv = argv;
 	struc->env = env;
-	pipe_return = pipe(struc->pipe_tab);
-	if (pipe_return == -1)
+}
+
+void	parse_args(char **argv, int argc, t_pip *struc)
+{
+	int	i;
+
+	i = 0;
+	if (!find_count_exe(argv, argc, struc))
+		handle_error("usage: ./pipex file1 cmd1 cmd2 file2");
+	while (argv[i])
 	{
-		perror("pipe");
-		exit (EXIT_FAILURE);
+		if (!argv[i] || only_space(argv[i]) || argv[i][0] == '\0')
+			handle_error("Arg empty");
+		i++;
 	}
 }
 
-void	parse_args(char **argv, int argc)
-{
-	if (!find_count_exe(argv, argc))
-		handle_error("usage: ./pipex file1 cmd1 cmd2 file2");
-	if (!argv[2] || only_space(argv[2]) || argv[2][0] == '\0')
-		handle_error("Please add a command as second arg");
-	if (!argv[3] || only_space(argv[3]) || argv[3][0] == '\0')
-		handle_error("Please add a command as third arg");
-}
 int	main(int argc, char **argv, char **env)
 {
 	t_pip	struc;
 
-	//parse_args(argv, argc);
-	(void)argc;
+	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv);
-	struc.pids[0] = handle_child_1(&struc);
-	if (struc.pids[0])
-		struc.pids[1] = handle_child_2(&struc);
+	while (struc.pids)
+		struc.pids = handle_child(&struc);
 	close(struc.pipe_tab[0]);
 	close(struc.pipe_tab[1]);
 	if (struc.pids[0] > 0 && struc.pids[1] > 0)
