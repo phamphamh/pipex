@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/17 17:15:14 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:16:18 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 //  < file1 cmd1 | cmd2 > file2
 // recu en arg = file1 cmd1 cmd2 file2
 
-void	init_things(t_pip *struc, char **env, char **argv)
+void	init_things(t_pip *struc, char **env, char **argv, int argc)
 {
-	int	pipe_return;
-
 	struc->argv = argv;
 	struc->env = env;
+	if (struc->here_doc >= 0)
+		struc->nb_cmds = argc - 4;
+	else
+		struc->nb_cmds = argc - 3;
 }
 
 void	parse_args(char **argv, int argc, t_pip *struc)
@@ -43,11 +45,13 @@ int	main(int argc, char **argv, char **env)
 	t_pip	struc;
 
 	parse_args(argv, argc, &struc);
-	init_things(&struc, env, argv);
+	init_things(&struc, env, argv, argc);
+	// faire un tableau dynamique de pids, avec le nb de commandes, et je les remplis a chaque child
 	while (struc.pids)
 		struc.pids = handle_child(&struc);
 	close(struc.pipe_tab[0]);
 	close(struc.pipe_tab[1]);
+	// faire la condition dans une boucle.
 	if (struc.pids[0] > 0 && struc.pids[1] > 0)
 	{
 		waitpid(struc.pids[0], NULL, 0);

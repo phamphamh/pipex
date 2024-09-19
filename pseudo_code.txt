@@ -20,6 +20,8 @@ a revoir ce qu on fait lorsqu on arrive au dernier file
 
 base toi sur ca
 
+faut autant de fork que de commandes
+
 void execute_pipeline(char **cmd_paths, char ***args, t_pip *struc, int num_cmds, char *input_file, char *output_file)
 {
 	int		fd_in, fd_out;

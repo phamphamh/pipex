@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/17 17:19:21 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:06:07 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_execve_1(char *cmd_path, char **args, t_pip *struc, int fd)
 {
+		// j peux pas close fd, jss dans une 
 		close(struc->pipe_tab[0]);
 		if (dup2(fd, STDIN_FILENO) == -1 || dup2(struc->pipe_tab[1], STDOUT_FILENO) == -1)
 			handle_error("dup2");
@@ -57,7 +58,7 @@ void	set_here_doc(t_pip *struc)
 	}
 }
 
-int	open_files(t_pip *struc, int idx)
+void	open_files(t_pip *struc, int idx)
 {
 	if (struc->here_doc >= 0)
 	{
@@ -105,7 +106,7 @@ pid_t	handle_child(t_pip *struc)
 	while (i < ft_strllen(struc->argv - 3))
 	{
 		if (i != )
-		pid = pipe(struc->pipe_fds)
+		pid = pipe(struc->pipe_fds);
 		if (pid == 0)
 		{
 			open_files(struc, i);

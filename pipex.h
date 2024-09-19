@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/17 17:12:35 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:01:55 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_pip
 	char	**env;
 	int		here_doc;
 	int		exec_pos;
+	int		nb_cmds;
 }			t_pip;
 
 int		ft_strcmp_env(const char *s1, const char *s2);
