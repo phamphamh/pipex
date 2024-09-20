@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/17 16:16:15 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:03:36 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,3 @@ void	handle_error(char *message)
 	exit(EXIT_FAILURE);
 }
 
-bool	find_count_exe(char **argv, int argc, t_pip *struc)
-{
-	int 	i;
-	int		res;
-
-	i = 0;
-	res = 0;
-	struc->here_doc = -1;
-	struc->exec_pos = 0;
-	while (argv[i])
-	{
-		if (!ft_strcmp("here_doc", argv[i]))
-		{
-			res += 1;
-			struc->here_doc = i;
-		}
-		if (!ft_strcmp("./pipex", argv[i]))
-		{
-			struc->exec_pos = i;
-			res = i;
-		}
-		i++;
-	}
-	if ((argc - res) != 5)
-		return (0);
-	return (1);
-}

@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/19 15:16:18 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:07:53 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,28 @@ void	parse_args(char **argv, int argc, t_pip *struc)
 int	main(int argc, char **argv, char **env)
 {
 	t_pip	struc;
+	int		i;
 
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
-	// faire un tableau dynamique de pids, avec le nb de commandes, et je les remplis a chaque child
-	while (struc.pids)
-		struc.pids = handle_child(&struc);
-	close(struc.pipe_tab[0]);
-	close(struc.pipe_tab[1]);
-	// faire la condition dans une boucle.
-	if (struc.pids[0] > 0 && struc.pids[1] > 0)
+	struc.pids = (pid_t *)malloc(sizeof(pid_t) * struc.nb_cmds);
+	i = 0;
+	while (i < struc.nb_cmds)
 	{
-		waitpid(struc.pids[0], NULL, 0);
-		waitpid(struc.pids[1], NULL, 0);
+		struc.pids[i] = handle_child(&struc);
+		if (i > 0)
+			close(struc.pipe_tab[0]);
+		if (i < struc.nb_cmds - 1)
+			close(struc.pipe_tab[1]);
+		if (i < struc.nb_cmds - 1)
+			struc.pipe_tab[0] = struc.pipe_fds[0];
+		i++;
 	}
+	while (i > 0)
+	{
+		waitpid(struc.pids[i], NULL, 0);
+		i--;
+	}
+	free(struc.pids);
 	return (0);
 }

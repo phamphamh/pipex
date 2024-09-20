@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/16 16:54:23 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:13:55 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,32 @@ char	*check_path(char *cmd, char **env)
 		return(NULL);
 	paths = ft_split(path + 5, ':');
 	return (join_paths(paths, cmd));
+}
+
+bool	find_count_exe(char **argv, int argc, t_pip *struc)
+{
+	int 	i;
+	int		res;
+
+	i = 0;
+	res = 0;
+	struc->here_doc = -1;
+	struc->exec_pos = 0;
+	while (argv[i])
+	{
+		if (!ft_strcmp("here_doc", argv[i]))
+		{
+			res += 1;
+			struc->here_doc = i;
+		}
+		if (!ft_strcmp("./pipex", argv[i]))
+		{
+			struc->exec_pos = i;
+			res = i;
+		}
+		i++;
+	}
+	if ((argc - res) < 5)
+		return (0);
+	return (1);
 }

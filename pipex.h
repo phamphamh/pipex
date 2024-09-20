@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/19 14:01:55 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:09:07 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,35 @@ typedef struct s_pip
 	int		nb_cmds;
 }			t_pip;
 
-int		ft_strcmp_env(const char *s1, const char *s2);
-void	free_all(char **split);
+// path
+bool	find_count_exe(char **argv, int argc, t_pip *struc);
 char	*find_path(char **env);
 char	*join_paths(char **paths, char *cmd);
 char	*check_path(char *cmd, char **env);
-void	handle_error(char *message);
-void	ft_execve_1(char *cmd_path, char **args, t_pip *struc, int fd);
-void	ft_execve_2(char *cmd_path, char **args, t_pip *struc, int fd);
-pid_t	handle_child_1(t_pip *struc);
-pid_t	handle_child_2(t_pip *struc);
-void	init_things(t_pip *struc, char **env, char **argv);
-char	**ft_split(char const *s, char c);
-void	init_quotes(int *in_single_quotes, int *in_double_quotes);
-void	init_split_vars(size_t *i, size_t *j, int *index);
+
+//utils
+int		ft_strcmp_env(const char *s1, const char *s2);
+void	free_all(char **split);
+int		ft_strllen(char **str);
 bool	only_space(char *str);
-bool	find_count_exe(char **argv, int argc, t_pip *struc);
-void	set_here_doc(t_pip *struc, int fd);
+void	handle_error(char *message);
+
+//dup
+void	open_fd_out(t_pip *struc);
+void	open_fd_in(t_pip *struc);
+void	handle_mid_cmd(t_pip *struc);
+void	handle_last_cmd(t_pip *struc);
+void	handle_first_cmd(t_pip *struc);
+
+//process
+void	ft_execve(t_pip *struc);
+pid_t	handle_child(t_pip *struc);
+void	set_here_doc(t_pip *struc);
+void	set_cmd_args(t_pip *struc, int idx);
+
+//pipex
+void	init_things(t_pip *struc, char **env, char **argv, int argc);
+void	parse_args(char **argv, int argc, t_pip *struc);
+int		main(int argc, char **argv, char **env);
 
 #endif
