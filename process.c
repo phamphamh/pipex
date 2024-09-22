@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/20 13:35:43 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:18:47 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	set_here_doc(t_pip *struc)
 		line = get_next_line(0);
 		if (!line)
 			break ;
-		if (!ft_strcmp(line, limiter))
+		if (!ft_strcmp_env(line, limiter))
 			break ;
 		write (struc->fd, line, ft_strlen(line));
 		write (struc->fd, "\n", 1);
@@ -39,8 +39,6 @@ void	set_cmd_args(t_pip *struc, int idx)
 		i = idx + struc->exec_pos + 3;
 	else
 		i = idx + struc->exec_pos + 2;
-	if (struc->here_doc >= 0 || struc->here_doc == -2)
-		i++;
 	struc->cmd_args = ft_split(struc->argv[i], ' ');
 	if (struc->cmd_args[0][0] == '/')
 		struc->cmd_path = ft_strdup(struc->cmd_args[0]);
@@ -76,12 +74,10 @@ pid_t	handle_child(t_pip *struc)
 				handle_first_cmd(struc);
 			else if (i == struc->nb_cmds - 1)
 			{
-				ft_putstr_fd("yo\n", 0);
 				handle_last_cmd(struc);
 			}
 			else
 			{
-				ft_putstr_fd("oy\n", 0);
 				handle_mid_cmd(struc);
 			}
 			set_cmd_args(struc, i);
