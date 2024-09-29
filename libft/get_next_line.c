@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:38:32 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/07/13 04:06:16 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:03:56 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,12 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
+	{
+		if (buffer[fd])
+			free(buffer[fd]);
+		buffer[fd] = NULL;
 		return (NULL);
+	}
 	buffer[fd] = read_line(buffer[fd], fd);
 	if (!buffer[fd])
 		return (NULL);
