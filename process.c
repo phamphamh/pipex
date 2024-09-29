@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:04:19 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:23:31 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_here_doc(t_pip *struc)
 		free(line);
 	}
 	free(limiter);
-	close(struc->fd);
+	//close(struc->fd);
 	struc->fd = open("here_doc", O_RDONLY);
 	if (struc->fd < 0)
 		handle_error("open here_doc for reading");

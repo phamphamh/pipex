@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:06:07 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:28:29 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	t_pip	struc;
 	int		i;
 
+	ft_memset(&struc, 0, sizeof(t_pip));
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
 	struc.pids = (pid_t *)malloc(sizeof(pid_t) * struc.nb_cmds);
@@ -54,7 +55,7 @@ int	main(int argc, char **argv, char **env)
 		struc.pids[i] = handle_child(&struc);
 		if (i > 0)
 			close(struc.pipe_tab[0]);
-		if (i < struc.nb_cmds - 1)
+		if (i < struc.nb_cmds - 1 && struc.pipe_tab[1] != -1)
 			close(struc.pipe_tab[1]);
 		if (i < struc.nb_cmds - 1)
 			struc.pipe_tab[0] = struc.pipe_fds[0];
@@ -66,8 +67,6 @@ int	main(int argc, char **argv, char **env)
 		i--;
 	}
 	free(struc.pids);
-	if (struc.here_doc == -2)
-		unlink("here_doc");
 	gnl_clear();
 	return (0);
 }
