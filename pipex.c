@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:28:29 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 22:34:42 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,5 @@ int	main(int argc, char **argv, char **env)
 		i--;
 	}
 	free(struc.pids);
-	gnl_clear();
 	return (0);
 }
