@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/20 12:09:07 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:08:11 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_all(char **split);
 int		ft_strllen(char **str);
 bool	only_space(char *str);
 void	handle_error(char *message);
+int		ft_strcmp_trimmed(const char *s1, const char *s2);
 
 //dup
 void	open_fd_out(t_pip *struc);

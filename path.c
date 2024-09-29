@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/20 12:13:55 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:01:35 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*find_path(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strcmp_env("PATH=", env[i]))
+		if (ft_strcmp_env("PATH=", env[i]) == 0)
 			return(env[i]);
 		i++;
 	}
@@ -38,7 +38,7 @@ char	*join_paths(char **paths, char *cmd)
 		full_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(full_path, cmd);
 		free(full_path);
-		if (access(path, X_OK) == 0)
+		if (access(path, R_OK | X_OK) == 0)
 		{
 			free_all(paths);
 			return (path);

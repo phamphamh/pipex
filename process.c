@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/22 18:18:47 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 21:43:54 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ void	set_here_doc(t_pip *struc)
 	limiter = ft_strdup(struc->argv[struc->here_doc + 1]);
 	while (1)
 	{
+		ft_putstr_fd("> ", STDOUT_FILENO);
 		line = get_next_line(0);
 		if (!line)
 			break ;
-		if (!ft_strcmp_env(line, limiter))
+		if (ft_strcmp_trimmed(limiter, line) == 0)
+		{
+			free(line);
 			break ;
-		write (struc->fd, line, ft_strlen(line));
-		write (struc->fd, "\n", 1);
+		}
+		write(struc->fd, line, ft_strlen(line));
 		free(line);
 	}
+	free(limiter);
 }
 
 void	set_cmd_args(t_pip *struc, int idx)
@@ -36,7 +40,10 @@ void	set_cmd_args(t_pip *struc, int idx)
 	int	i;
 
 	if (struc->here_doc == -2)
+	{
+		printf("yo\n");
 		i = idx + struc->exec_pos + 3;
+	}
 	else
 		i = idx + struc->exec_pos + 2;
 	struc->cmd_args = ft_split(struc->argv[i], ' ');

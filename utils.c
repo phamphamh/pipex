@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/22 18:18:32 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/29 20:08:38 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	ft_strcmp_env(const char *s1, const char *s2)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
+	if (s2[i] == '\n')
+		return (s1[i] - '\n');
 	return (0);
 }
 
@@ -69,3 +71,16 @@ void	handle_error(char *message)
 	exit(EXIT_FAILURE);
 }
 
+int	ft_strcmp_trimmed(const char *s1, const char *s2)
+{
+	size_t	len1;
+	size_t	len2;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (len2 > 0 && s2[len2 - 1] == '\n')
+		len2--;
+	if (len1 != len2)
+		return (1);
+	return (ft_strncmp(s1, s2, len1));
+}
