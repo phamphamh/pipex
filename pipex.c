@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:34:42 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/30 01:47:17 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,26 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc)
 		struc->nb_cmds = argc - 4;
 	else
 		struc->nb_cmds = argc - 3;
+	init_pipes(struc);
+}
+
+void	init_pipes(t_pip *struc)
+{
+	int	i;
+	struc->nb_pipes = struc->nb_cmds - 1;
+	struc->pipes = malloc(sizeof(int *) * struc->nb_pipes);
+	if (!struc->pipes)
+		handle_error("malloc failed");
+	i = 0;
+	while (i < struc->nb_pipes)
+	{
+		struc->pipes[i] = malloc(sizeof(int) * 2);
+		if (!struc->pipes[i])
+			handle_error("malloc failed");
+		if (pipe(struc->pipes[i]) == -1)
+			handle_error("pipe creation failed");
+		i++;
+	}
 }
 
 void	parse_args(char **argv, int argc, t_pip *struc)
@@ -52,20 +72,19 @@ int	main(int argc, char **argv, char **env)
 	i = 0;
 	while (i < struc.nb_cmds)
 	{
-		struc.pids[i] = handle_child(&struc);
-		if (i > 0)
-			close(struc.pipe_tab[0]);
-		if (i < struc.nb_cmds - 1 && struc.pipe_tab[1] != -1)
-			close(struc.pipe_tab[1]);
-		if (i < struc.nb_cmds - 1)
-			struc.pipe_tab[0] = struc.pipe_fds[0];
+		struc.pids[i] = handle_child(&struc, i);
 		i++;
 	}
-	while (i > 0)
+	i = 0;
+	while (i < struc.nb_pipes)
 	{
-		waitpid(struc.pids[i], NULL, 0);
-		i--;
+		close(struc.pipes[i][0]);
+		close(struc.pipes[i][1]);
+		i++;
 	}
+	while (i-- > 0)
+		waitpid(struc.pids[i], NULL, 0);
 	free(struc.pids);
+	free_pipes(&struc);
 	return (0);
 }

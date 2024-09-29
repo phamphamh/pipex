@@ -1,4 +1,17 @@
 
+regler les leaks quand le prog normal marche + here doc
+faire mon fleuve de gestion d erreur et de free.
+possiblement refaire le gnl
+
+
+
+	 ./pipex
+
+
+
+
+
+
 //  < file1 cmd1 | cmd2 > file2
 // recu en arg = file1 cmd1 cmd2 file2
 

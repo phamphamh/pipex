@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:19:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/30 01:13:25 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,26 @@ int	ft_strcmp_trimmed(const char *s1, const char *s2)
 void	gnl_clear(void)
 {
 	get_next_line(-1);
+}
+
+void	ft_close(int *fd)
+{
+	if (*fd == 1 || *fd == 0 || *fd == 2 || *fd == -1)
+		return ;
+	else
+		close (*fd);
+	*fd = -1;
+}
+
+void free_pipes(t_pip *struc)
+{
+	int	i;
+
+	i = 0;
+	while (i < struc->nb_pipes)
+	{
+		free(struc->pipes[i]);
+		i++;
+	}
+	free(struc->pipes);
 }

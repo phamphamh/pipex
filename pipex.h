@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 21:57:34 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/30 01:16:58 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 typedef struct s_pip
 {
 	pid_t	*pids;
-	int		pipe_tab[2];
-	int		pipe_fds[2];
+	int		**pipes;
+	int		nb_pipes;
 	char	**argv;
 	char	**cmd_args;
 	char	*cmd_path;
@@ -50,6 +50,8 @@ bool	only_space(char *str);
 void	handle_error(char *message);
 int		ft_strcmp_trimmed(const char *s1, const char *s2);
 void	gnl_clear(void);
+void	ft_close(int *fd);
+void	free_pipes(t_pip *struc);
 
 //dup
 void	open_fd_out(t_pip *struc);
@@ -60,12 +62,13 @@ void	handle_first_cmd(t_pip *struc);
 
 //process
 void	ft_execve(t_pip *struc);
-pid_t	handle_child(t_pip *struc);
+pid_t	handle_child(t_pip *struc, int idx);
 void	set_here_doc(t_pip *struc);
 void	set_cmd_args(t_pip *struc, int idx);
 
 //pipex
 void	init_things(t_pip *struc, char **env, char **argv, int argc);
+void	init_pipes(t_pip *struc);
 void	parse_args(char **argv, int argc, t_pip *struc);
 int		main(int argc, char **argv, char **env);
 

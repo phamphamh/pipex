@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:34:56 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/30 01:23:54 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_here_doc(t_pip *struc)
 		free(line);
 	}
 	free(limiter);
-	//close(struc->fd);
+	//ft_close(&struc->fd);
 	struc->fd = open("here_doc", O_RDONLY);
 	if (struc->fd < 0)
 		handle_error("open here_doc for reading");
@@ -45,7 +45,6 @@ void	set_cmd_args(t_pip *struc, int idx)
 
 	if (struc->here_doc == -2)
 	{
-		printf("yo\n");
 		i = idx + struc->exec_pos + 3;
 	}
 	else
@@ -65,46 +64,53 @@ void	ft_execve(t_pip *struc)
 		exit(EXIT_FAILURE);
 }
 
-pid_t	handle_child(t_pip *struc)
+pid_t	handle_child(t_pip *struc, int idx)
 {
 	pid_t	pid;
 	int		i;
 
 	i = 0;
-	open_fd_in(struc);
-	while (i < struc->nb_cmds)
+	pid = fork();
+	if (pid == -1)
+		handle_error("fork");
+	if (pid == 0)
 	{
-		if (i != struc->nb_cmds - 1)
-			pipe(struc->pipe_fds);
-		pid = fork();
-		if (pid == -1)
-			handle_error("fork");
-		if (pid == 0)
+		if (idx == 0)
 		{
-			if (i == 0)
-				handle_first_cmd(struc);
-			else if (i == struc->nb_cmds - 1)
-			{
-				handle_last_cmd(struc);
-			}
-			else
-			{
-				handle_mid_cmd(struc);
-			}
-			set_cmd_args(struc, i);
-			ft_execve(struc);
+			open_fd_in(struc);
+			dup2(struc->fd, STDIN_FILENO);
+			close(struc->fd);
+			dup2(struc->pipes[0][1], STDOUT_FILENO);
+		}
+		else if (idx == struc->nb_cmds - 1)
+		{
+			open_fd_out(struc);
+			dup2(struc->pipes[idx - 1][0], STDIN_FILENO);
+			dup2(struc->fd, STDOUT_FILENO);
+			close(struc->fd);
 		}
 		else
 		{
-			if (i > 0)
-				close(struc->pipe_tab[0]);
-			if (i < struc->nb_cmds - 1)
-			{
-				close(struc->pipe_fds[1]);
-				struc->pipe_tab[0] = struc->pipe_fds[0];
-			}
+			dup2(struc->pipes[idx-1][0], STDIN_FILENO);
+			dup2(struc->pipes[idx][1], STDOUT_FILENO);
 		}
-		i++;
+		while (i < struc->nb_pipes)
+		{
+			if (i != idx - 1)
+				close(struc->pipes[i][0]);
+			if (i != idx)
+				close(struc->pipes[i][1]);
+			i++;
+		}
+		set_cmd_args(struc, idx);
+		ft_execve(struc);
+	}
+	else
+	{
+		if (idx > 0)
+			close(struc->pipes[idx-1][0]);
+		if (idx < struc->nb_cmds - 1)
+			close(struc->pipes[idx][1]);
 	}
 	return (pid);
 }

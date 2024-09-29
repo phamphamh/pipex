@@ -6,37 +6,11 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:01:08 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/20 13:21:58 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/09/30 01:07:32 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	handle_first_cmd(t_pip *struc)
-{
-	dup2(struc->fd, STDIN_FILENO);
-	close(struc->fd);
-	dup2(struc->pipe_fds[1], STDOUT_FILENO);
-	close(struc->pipe_fds[0]);
-	close(struc->pipe_fds[1]);
-}
-
-void	handle_last_cmd(t_pip *struc)
-{
-	open_fd_out(struc);
-	dup2(struc->pipe_tab[0], STDIN_FILENO);
-	close(struc->pipe_tab[0]);
-	dup2(struc->fd, STDOUT_FILENO);
-	close(struc->fd);
-}
-
-void	handle_mid_cmd(t_pip *struc)
-{
-	dup2(struc->pipe_tab[0], STDIN_FILENO);
-	dup2(struc->pipe_fds[1], STDOUT_FILENO);
-	close(struc->pipe_tab[0]);
-	close(struc->pipe_fds[1]);
-}
 
 void	open_fd_in(t_pip *struc)
 {
