@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/30 01:47:17 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/01 01:08:09 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc)
 {
 	struc->argv = argv;
 	struc->env = env;
+	struc->exit_status = 0;
 	if (struc->here_doc >= 0)
 		struc->nb_cmds = argc - 4;
 	else
@@ -64,6 +65,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pip	struc;
 	int		i;
+	int		status;
+	int		child_status;
 
 	ft_memset(&struc, 0, sizeof(t_pip));
 	parse_args(argv, argc, &struc);
@@ -83,7 +86,17 @@ int	main(int argc, char **argv, char **env)
 		i++;
 	}
 	while (i-- > 0)
+	{
 		waitpid(struc.pids[i], NULL, 0);
+		if (WIFEXITED(status))
+		{
+			child_status = WEXITSTATUS(status);
+			if (child_status != 0)
+				struc.exit_status = 1;
+		}
+		else
+			struc.exit_status = 1;
+	}
 	free(struc.pids);
 	free_pipes(&struc);
 	return (0);
