@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/01 01:08:09 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/05 22:36:50 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **env)
 	int		status;
 	int		child_status;
 
-	ft_memset(&struc, 0, sizeof(t_pip));
+	ft_memset(&struc, 0, sizeof(t_pip)); // pas sur
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
 	struc.pids = (pid_t *)malloc(sizeof(pid_t) * struc.nb_cmds);
@@ -85,17 +85,23 @@ int	main(int argc, char **argv, char **env)
 		close(struc.pipes[i][1]);
 		i++;
 	}
-	while (i-- > 0)
+	i = 0;
+	child_status = 0;
+	while (i < struc.nb_cmds)
 	{
-		waitpid(struc.pids[i], NULL, 0);
+		waitpid(struc.pids[i], &status, 0);
 		if (WIFEXITED(status))
 		{
+			// verifier l argument de err cmd et wexit status, pour avoir file1 command
+			// not found quand  ./pipex here_doc lim file1 cat cat cat file2
 			child_status = WEXITSTATUS(status);
 			if (child_status != 0)
-				struc.exit_status = 1;
+			{
+				ft_putstr_fd(struc.err_cmd, STDERR_FILENO);
+				ft_putstr_fd(": command not found\n", STDERR_FILENO);
+			}
 		}
-		else
-			struc.exit_status = 1;
+		i++;
 	}
 	free(struc.pids);
 	free_pipes(&struc);

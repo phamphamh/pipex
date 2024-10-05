@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 20:01:35 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/05 21:19:05 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ bool	find_count_exe(char **argv, int argc, t_pip *struc)
 	struc->exec_pos = 0;
 	while (argv[i])
 	{
-		if (!ft_strcmp("here_doc", argv[i]))
+		if (!ft_strcmp_trimmed("here_doc", argv[i]))
 		{
 			res += 1;
 			struc->here_doc = i;
 		}
-		if (!ft_strcmp("./pipex", argv[i]))
+		if (!ft_strcmp_trimmed("./pipex", argv[i]))
 		{
 			struc->exec_pos = i;
 			res = i;

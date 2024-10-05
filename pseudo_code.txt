@@ -7,7 +7,10 @@ possiblement refaire le gnl
 
 	 ./pipex
 
-
+struc.pids  
+struc.pipes  
+cmd_args
+cmd_path
 
 
 
