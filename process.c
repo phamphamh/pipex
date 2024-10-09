@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/05 21:54:18 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:36:16 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	set_here_doc(t_pip *struc)
 	free(limiter);
 	struc->fd = open("here_doc", O_RDONLY);
 	if (struc->fd < 0)
-		handle_error("open here_doc for reading");
+		handle_error("open here_doc for reading", struc, 0);
 }
 
 void	set_cmd_args(t_pip *struc, int idx)
@@ -57,9 +57,20 @@ void	set_cmd_args(t_pip *struc, int idx)
 
 void	ft_execve(t_pip *struc)
 {
+	if (!struc->cmd_path || access(struc->cmd_path, F_OK) == -1)
+	{
+		//ft_putstr_fd(struc->cmd_args[0], STDERR_FILENO);
+		//ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		handle_error("command not found\n", struc, 127);
+	}
+	else if (access(struc->cmd_path, X_OK) == -1)
+	{
+		//ft_putstr_fd(struc->cmd_args[0], STDERR_FILENO);
+		//ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		handle_error("Permission denied\n", struc, 126);
+	}
 	execve(struc->cmd_path, struc->cmd_args, struc->env);
-	struc->exit_status = 1;
-	struc->err_cmd = ft_strdup(struc->cmd_args[0]);
+	perror(struc->cmd_args[0]);
 	exit(EXIT_FAILURE);
 }
 
@@ -71,7 +82,7 @@ pid_t	handle_child(t_pip *struc, int idx)
 	i = 0;
 	pid = fork();
 	if (pid == -1)
-		handle_error("fork");
+		handle_error("fork", struc, 0);
 	if (pid == 0)
 	{
 		if (idx == 0)

@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:01:08 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/30 01:07:32 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:40:50 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	open_fd_in(t_pip *struc)
 	{
 		struc->fd = open("here_doc", O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (struc->fd == -1)
-				handle_error("open");
+				handle_error("open", struc, 0);
 		set_here_doc(struc);
 		struc->here_doc = -2;
 	}
 	else
 		struc->fd = open(struc->argv[struc->exec_pos + 1], O_RDONLY);
 	if (struc->fd < 0)
-		handle_error("open");
+		handle_error("open", struc, 0);
 }
 
 void	open_fd_out(t_pip *struc)
@@ -38,5 +38,5 @@ void	open_fd_out(t_pip *struc)
 	else
 		struc->fd = open(struc->argv[i - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (struc->fd < 0)
-		handle_error("open");
+		handle_error("open", struc, 0);
 }

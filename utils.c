@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/30 01:13:25 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:46:28 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,23 @@ bool	only_space(char *str)
 	return (true);
 }
 
-void	handle_error(char *message)
+void	handle_error(char *message, t_pip *struc, int nb_error)
 {
-	perror(message);
+	if (struc->pipes)
+	{
+		close_all_pipes(struc);
+		free_pipes(struc);
+	}
+	if (struc->cmd_path)
+		free(struc->cmd_path);
+	if (struc->cmd_args)
+		free_all(struc->cmd_args);
+	if (struc->pids)
+		free(struc->pids);
+	if (message)
+		perror(message);
+	if (nb_error != 0)
+		exit(nb_error);
 	exit(EXIT_FAILURE);
 }
 
@@ -110,4 +124,5 @@ void free_pipes(t_pip *struc)
 		i++;
 	}
 	free(struc->pipes);
+	struc->pipes = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/05 21:48:51 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:46:15 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_pip
 	int		exec_pos;
 	int		nb_cmds;
 	int		exit_status;
-	char	*err_cmd;
 }			t_pip;
 
 // path
@@ -49,7 +48,7 @@ int		ft_strcmp_env(const char *s1, const char *s2);
 void	free_all(char **split);
 int		ft_strllen(char **str);
 bool	only_space(char *str);
-void	handle_error(char *message);
+void	handle_error(char *message, t_pip *struc, int nb_error);
 int		ft_strcmp_trimmed(const char *s1, const char *s2);
 void	gnl_clear(void);
 void	ft_close(int *fd);
@@ -73,5 +72,7 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc);
 void	init_pipes(t_pip *struc);
 void	parse_args(char **argv, int argc, t_pip *struc);
 int		main(int argc, char **argv, char **env);
+void	wait_for_children(t_pip *struc, int *child_status);
+void	close_all_pipes(t_pip *struc);
 
 #endif

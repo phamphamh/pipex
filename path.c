@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/05 21:19:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:38:33 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,19 @@ char	*join_paths(char **paths, char *cmd)
 	while (paths[i])
 	{
 		full_path = ft_strjoin(paths[i], "/");
+		if (!full_path)
+		{
+			free(full_path);
+			break;
+		}
 		path = ft_strjoin(full_path, cmd);
+		if (!path)
+		{
+			free(path);
+			break;
+		}
 		free(full_path);
-		if (access(path, R_OK | X_OK) == 0)
+		if (access(path, F_OK | X_OK) == 0)
 		{
 			free_all(paths);
 			return (path);
