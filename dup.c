@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:01:08 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/09 19:40:50 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:19:10 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	open_fd_in(t_pip *struc)
 	if (struc->here_doc >= 0)
 	{
 		struc->fd = open("here_doc", O_WRONLY | O_APPEND | O_CREAT, 0644);
-		if (struc->fd == -1)
+		if (struc->fd < 0)
 				handle_error("open", struc, 0);
 		set_here_doc(struc);
 		struc->here_doc = -2;

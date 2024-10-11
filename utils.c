@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/09 19:46:28 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:11:25 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	handle_error(char *message, t_pip *struc, int nb_error)
 	if (message)
 		perror(message);
 	if (nb_error != 0)
-		exit(nb_error);
+		nb_error = 1;
+	//exit(nb_error);
 	exit(EXIT_FAILURE);
 }
 

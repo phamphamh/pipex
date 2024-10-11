@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/09 19:45:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/11 21:19:06 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,28 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc)
 	struc->cmd_args = NULL;
 	struc->cmd_path = NULL;
 	if (struc->here_doc >= 0)
+	{
 		struc->nb_cmds = argc - 4;
+		struc->nb_pipes = struc->nb_cmds - 1;
+	}
 	else
+	{
 		struc->nb_cmds = argc - 3;
+		struc->nb_pipes = struc->nb_cmds - 1;
+	}
+	struc->pids = (pid_t *)malloc(sizeof(pid_t) * struc->nb_cmds);
+	if (!struc->pids)
+	{
+		struc->pids = NULL;
+		handle_error("malloc error", struc, 0);
+	}
 	init_pipes(struc);
 }
 
 void	init_pipes(t_pip *struc)
 {
 	int	i;
-	struc->nb_pipes = struc->nb_cmds - 1;
+
 	struc->pipes = malloc(sizeof(int *) * struc->nb_pipes);
 	if (!struc->pipes)
 	{
@@ -61,11 +73,17 @@ void	parse_args(char **argv, int argc, t_pip *struc)
 
 	i = 0;
 	if (!find_count_exe(argv, argc, struc))
-		handle_error("usage: ./pipex file1 cmd1 cmd2 cmdn ... file2", struc, 0);
+	{
+		ft_putstr_fd("Wrong number of args\n", 2);
+		exit(1);
+	}
 	while (argv[i])
 	{
 		if (!argv[i] || only_space(argv[i]) || argv[i][0] == '\0')
-			handle_error("Arg empty", struc, 0);
+		{
+			ft_putstr_fd("Arg empty\n", 2);
+			exit(1);
+		}
 		i++;
 	}
 }
@@ -83,7 +101,7 @@ void	close_all_pipes(t_pip *struc)
 	}
 }
 
-void	wait_for_children(t_pip *struc, int *child_status)
+void	wait_for_children(t_pip *struc)
 {
 	int	i;
 	int	status;
@@ -94,12 +112,10 @@ void	wait_for_children(t_pip *struc, int *child_status)
 		waitpid(struc->pids[i], &status, 0);
 		if (WIFEXITED(status))
 		{
-			*child_status = WEXITSTATUS(status);
-			if (*child_status != 0 && i == struc->nb_cmds - 1)
-				struc->exit_status = *child_status;
+			struc->exit_status = WEXITSTATUS(status);
+			if (struc->exit_status != 0)
+				break;
 		}
-		else if (WIFSIGNALED(status))
-			struc->exit_status = 128 + WTERMSIG(status);
 		i++;
 	}
 }
@@ -108,16 +124,9 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pip	struc;
 	int		i;
-	int		child_status;
 
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
-	struc.pids = (pid_t *)malloc(sizeof(pid_t) * struc.nb_cmds);
-	if (!struc.pids)
-	{
-		struc.pids = NULL;
-		handle_error("malloc error", &struc, 0);
-	}
 	i = 0;
 	while (i < struc.nb_cmds)
 	{
@@ -125,7 +134,9 @@ int	main(int argc, char **argv, char **env)
 		i++;
 	}
 	close_all_pipes(&struc);
-	wait_for_children(&struc, &child_status);
+	wait_for_children(&struc);
+	if (struc.here_doc == -2)
+		unlink("here_doc");
 	free(struc.pids);
 	free_pipes(&struc);
 	return (struc.exit_status);

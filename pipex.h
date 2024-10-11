@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/09 19:46:15 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:42:39 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc);
 void	init_pipes(t_pip *struc);
 void	parse_args(char **argv, int argc, t_pip *struc);
 int		main(int argc, char **argv, char **env);
-void	wait_for_children(t_pip *struc, int *child_status);
+void	wait_for_children(t_pip *struc);
 void	close_all_pipes(t_pip *struc);
 
 #endif
