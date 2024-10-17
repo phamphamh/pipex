@@ -6,17 +6,12 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:00:54 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:45:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:46:19 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <stddef.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 3
@@ -27,6 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stddef.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdint.h>
@@ -34,10 +30,8 @@
 # define MAX_FD 1024
 
 char	*get_next_line(int fd);
-char	*bin_line(char *buffer);
-char	*create_line(char *buffer);
-char	*read_line(char *buffer, int fd);
-char	*ft_free(char *buff, char *tmp);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+
 
 char	**ft_free_all(char **split, size_t j);
 char	*ft_strchr(const char *str, int c);

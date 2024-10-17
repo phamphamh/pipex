@@ -6,116 +6,74 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:38:32 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/29 22:03:56 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:45:54 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_free(char *buff, char *tmp)
+static char	*function_name(int fd, char *buf, char *backup)
 {
-	char	*temp;
+	int		read_line;
+	char	*char_temp;
 
-	temp = ft_strjoin(buff, tmp);
-	free(buff);
-	return (temp);
-}
-
-char	*create_line(char *buffer)
-{
-	char	*line;
-	int		i;
-
-	i = 0;
-	if (!buffer[i])
-		return (NULL);
-	while (buffer[i] != '\0' && buffer[i] != '\n')
-		i++;
-	line = ft_calloc(i + 2, sizeof(char));
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (buffer[i] != '\0' && buffer[i] != '\n')
+	read_line = 1;
+	while (read_line != '\0')
 	{
-		line[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] == '\n')
-		line [i++] = '\n';
-	line[i] = '\0';
-	return (line);
-}
-
-char	*bin_line(char *buffer)
-{
-	char	*bin;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (buffer[i] != '\0' && buffer[i] != '\n')
-		i++;
-	if (!buffer[i])
-	{
-		free(buffer);
-		return (NULL);
-	}
-	bin = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
-	if (!bin)
-		return (NULL);
-	i++;
-	j = 0;
-	while (buffer[i] != '\0')
-		bin[j++] = buffer[i++];
-	free (buffer);
-	return (bin);
-}
-
-char	*read_line(char *buffer, int fd)
-{
-	int		arch;
-	char	*tmp;
-
-	if (!buffer)
-		buffer = ft_calloc(1, 1);
-	arch = 1;
-	tmp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while (arch > 0)
-	{
-		arch = read(fd, tmp, BUFFER_SIZE);
-		if (arch == -1)
-		{
-			free(tmp);
-			free(buffer);
-			return (NULL);
-		}
-		tmp[arch] = 0;
-		if (ft_strchr(tmp, '\0') != tmp + arch)
-			return (NULL);
-		buffer = ft_free(buffer, tmp);
-		if (ft_strchr(tmp, '\n'))
+		read_line = read(fd, buf, BUFFER_SIZE);
+		if (read_line == -1)
+			return (0);
+		else if (read_line == 0)
+			break ;
+		buf[read_line] = '\0';
+		if (!backup)
+			backup = ft_strdup("");
+		char_temp = backup;
+		backup = ft_strjoin(char_temp, buf);
+		free(char_temp);
+		char_temp = NULL;
+		if (ft_strchr (buf, '\n'))
 			break ;
 	}
-	free(tmp);
-	return (buffer);
+	return (backup);
+}
+
+static char	*extract(char *line)
+{
+	size_t	count;
+	char	*backup;
+
+	count = 0;
+	while (line[count] != '\n' && line[count] != '\0')
+		count++;
+	if (line[count] == '\0' || line[1] == '\0')
+		return (0);
+	backup = ft_substr(line, count + 1, ft_strlen(line) - count);
+	if (*backup == '\0')
+	{
+		free(backup);
+		backup = NULL;
+	}
+	line[count + 1] = '\0';
+	return (backup);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[MAX_FD];
 	char		*line;
+	char		*buf;
+	static char	*backup;
 
-	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
-	{
-		if (buffer[fd])
-			free(buffer[fd]);
-		buffer[fd] = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (0);
+	line = function_name(fd, buf, backup);
+	free(buf);
+	buf = NULL;
+	if (!line)
 		return (NULL);
-	}
-	buffer[fd] = read_line(buffer[fd], fd);
-	if (!buffer[fd])
-		return (NULL);
-	line = create_line(buffer[fd]);
-	buffer[fd] = bin_line(buffer[fd]);
+	backup = extract(line);
 	return (line);
 }

@@ -6,53 +6,33 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:40:20 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/09/17 15:11:21 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 09:46:02 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int		i;
-	char	d;
-
-	i = 0;
-	d = c;
-	while (str[i] != '\0')
-	{
-		if (str[i] == d)
-			return ((char *)&str[i]);
-		i++;
-	}
-	if (d == '\0')
-		return ((char *)&str[i]);
-	return ((char *) NULL);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*tab;
 	size_t	i;
+	size_t	j;
+	char	*str;
 
-	tab = s;
+	str = (char *)malloc(sizeof(*s) * (len + 1));
+	if (str == 0)
+		return (NULL);
 	i = 0;
-	while (i < n)
+	j = 0;
+	while (s[i])
 	{
-		tab[i] = 0;
+		if (i >= start && j < len)
+		{
+			str[j] = s[i];
+			j++;
+		}
 		i++;
 	}
-}
-
-
-void	*ft_calloc(size_t num_elements, size_t element_size)
-{
-	void	*mem;
-
-	mem = (malloc(num_elements * element_size));
-	if (!mem)
-		return (NULL);
-	ft_bzero(mem, num_elements * element_size);
-	return (mem);
+	str[j] = 0;
+	return (str);
 }
 

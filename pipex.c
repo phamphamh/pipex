@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:19:06 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:49:55 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	close_all_pipes(&struc);
 	wait_for_children(&struc);
-	if (struc.here_doc == -2)
+	if (struc.here_doc == -2 || struc.here_doc >= 0)
 		unlink("here_doc");
 	free(struc.pids);
 	free_pipes(&struc);

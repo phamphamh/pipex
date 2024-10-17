@@ -6,23 +6,11 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/11 21:29:22 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:28:58 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-/*
-int fd[2];
-pipe(fd);
-while (1)
-{
-	write(fd[1], line, strlen(line));
-	write(fd[1], "\n", 1);
-}
-close(fd[1]);
-return (fd[0]);
-*/
 
 void	set_here_doc(t_pip *struc)
 {
@@ -32,7 +20,7 @@ void	set_here_doc(t_pip *struc)
 	limiter = ft_strdup(struc->argv[struc->here_doc + 1]);
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
+		//ft_putstr_fd("> ", STDOUT_FILENO);
 		line = get_next_line(0);
 		if (!line)
 			break ;
@@ -46,6 +34,7 @@ void	set_here_doc(t_pip *struc)
 		free(line);
 	}
 	free(limiter);
+	close(struc->fd);
 	struc->fd = open("here_doc", O_RDONLY);
 	if (struc->fd < 0)
 		handle_error("open here_doc for reading", struc, 0);
@@ -55,7 +44,7 @@ void	set_cmd_args(t_pip *struc, int idx)
 {
 	int	i;
 
-	if (struc->here_doc == -2)
+	if (struc->here_doc == -2 || struc->here_doc >= 0)
 	{
 		i = idx + struc->exec_pos + 3;
 	}
@@ -74,31 +63,16 @@ void	set_cmd_args(t_pip *struc, int idx)
 	if (!struc->cmd_path)
 	{
 		ft_putstr_fd(struc->cmd_args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		handle_error("", struc, 0);
+		handle_error(" command not found\n", struc, 127);
 	}
 }
 
 void	ft_execve(t_pip *struc)
 {
-	    if (!struc->cmd_path || access(struc->cmd_path, F_OK) == -1)
-    {
-        ft_putstr_fd(struc->cmd_args[0], 2);
-        ft_putstr_fd(": command not found\n", 2);
-        exit(127);
-    }
-    else if (access(struc->cmd_path, X_OK) == -1)
-    {
-        ft_putstr_fd(struc->cmd_args[0], 2);
-        ft_putstr_fd(": Permission denied\n", 2);
-        exit(126);
-    }
-	/*
 	if (!struc->cmd_path || access(struc->cmd_path, F_OK) == -1)
 		handle_error("command not found\n", struc, 127);
 	else if (access(struc->cmd_path, X_OK) == -1)
 		handle_error("Permission denied\n", struc, 126);
-	*/
 	execve(struc->cmd_path, struc->cmd_args, struc->env);
 	perror(struc->cmd_args[0]);
 	exit(EXIT_FAILURE);
@@ -110,6 +84,12 @@ pid_t	handle_child(t_pip *struc, int idx)
 	int		i;
 
 	i = 0;
+	set_cmd_args(struc, idx);
+	if (!struc->cmd_path)
+	{
+		ft_putstr_fd(struc->cmd_args[0], 2);
+		handle_error(" command not found\n", struc, 127);
+	}
 	pid = fork();
 	if (pid == -1)
 		handle_error("fork", struc, 0);
@@ -137,17 +117,9 @@ pid_t	handle_child(t_pip *struc, int idx)
 		while (i < struc->nb_pipes)
 		{
 			close(struc->pipes[i][0]);
-            close(struc->pipes[i][1]);
-            i++;
-			/*
-			if (i != idx - 1)
-				close(struc->pipes[i][0]);
-			if (i != idx)
-				close(struc->pipes[i][1]);
+			close(struc->pipes[i][1]);
 			i++;
-			*/
 		}
-		set_cmd_args(struc, idx);
 		ft_execve(struc);
 	}
 	else
@@ -156,6 +128,10 @@ pid_t	handle_child(t_pip *struc, int idx)
 			close(struc->pipes[idx-1][0]);
 		if (idx < struc->nb_cmds - 1)
 			close(struc->pipes[idx][1]);
+		free_all(struc->cmd_args);
+		struc->cmd_args = NULL;
+		free(struc->cmd_path);
+		struc->cmd_path = NULL;
 	}
 	return (pid);
 }

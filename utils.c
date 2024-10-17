@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/11 20:11:25 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:50:41 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,29 @@ void	handle_error(char *message, t_pip *struc, int nb_error)
 		free_pipes(struc);
 	}
 	if (struc->cmd_path)
+	{
 		free(struc->cmd_path);
+		struc->cmd_path = NULL;
+	}
 	if (struc->cmd_args)
+	{
 		free_all(struc->cmd_args);
+		struc->cmd_args = NULL;
+	}
 	if (struc->pids)
 		free(struc->pids);
+	/*
+	if (struc->here_doc == -2 || struc->here_doc >= 0)
+	{
+		struc->here_doc = -1;
+		unlink("here_doc");
+	}
+	*/
 	if (message)
 		perror(message);
-	if (nb_error != 0)
+	if (nb_error == 0)
 		nb_error = 1;
-	//exit(nb_error);
-	exit(EXIT_FAILURE);
+	exit(nb_error);
 }
 
 int	ft_strcmp_trimmed(const char *s1, const char *s2)
@@ -98,11 +110,6 @@ int	ft_strcmp_trimmed(const char *s1, const char *s2)
 	if (len1 != len2)
 		return (1);
 	return (ft_strncmp(s1, s2, len1));
-}
-
-void	gnl_clear(void)
-{
-	get_next_line(-1);
 }
 
 void	ft_close(int *fd)
