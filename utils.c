@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 16:07:53 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:52:57 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	handle_error(char *message, t_pip *struc, int nb_error)
 	}
 	if (nb_error == 0)
 		nb_error = 1;
-	exit(nb_error);
+	if (nb_error != -1)
+		exit(nb_error);
 }
 
 int	ft_strcmp_trimmed(const char *s1, const char *s2)
