@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 13:33:20 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:07:53 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ void	handle_error(char *message, t_pip *struc, int nb_error)
 	}
 	if (struc->pids)
 		free(struc->pids);
-	/*
 	if (struc->here_doc == -2 || struc->here_doc >= 0)
 	{
 		struc->here_doc = -1;
 		unlink("here_doc");
 	}
-	*/
-	if (message)
+	if (message && message[0] != '\0')
 	{
 		ft_putstr_fd(message, 2);
 		ft_putstr_fd("\n", 2);
@@ -114,7 +112,7 @@ int	ft_strcmp_trimmed(const char *s1, const char *s2)
 		return (1);
 	return (ft_strncmp(s1, s2, len1));
 }
-
+/*
 void	ft_close(int *fd)
 {
 	if (*fd == 1 || *fd == 0 || *fd == 2 || *fd == -1)
@@ -123,6 +121,7 @@ void	ft_close(int *fd)
 		close (*fd);
 	*fd = -1;
 }
+*/
 
 void free_pipes(t_pip *struc)
 {

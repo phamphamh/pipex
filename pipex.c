@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 11:49:55 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:35:52 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc)
 	if (!struc->pids)
 	{
 		struc->pids = NULL;
-		handle_error("malloc error", struc, 0);
+		handle_error("malloc failed", struc, 0);
 	}
 	init_pipes(struc);
 }
@@ -111,11 +111,7 @@ void	wait_for_children(t_pip *struc)
 	{
 		waitpid(struc->pids[i], &status, 0);
 		if (WIFEXITED(status))
-		{
 			struc->exit_status = WEXITSTATUS(status);
-			if (struc->exit_status != 0)
-				break;
-		}
 		i++;
 	}
 }
@@ -127,6 +123,7 @@ int	main(int argc, char **argv, char **env)
 
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
+	open_fd_in(&struc);
 	i = 0;
 	while (i < struc.nb_cmds)
 	{
