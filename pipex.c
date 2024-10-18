@@ -6,14 +6,11 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 16:35:52 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 08:22:29 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-//  < file1 cmd1 | cmd2 > file2
-// recu en arg = file1 cmd1 cmd2 file2
 
 void	init_things(t_pip *struc, char **env, char **argv, int argc)
 {
@@ -75,28 +72,15 @@ void	parse_args(char **argv, int argc, t_pip *struc)
 	if (!find_count_exe(argv, argc, struc))
 	{
 		ft_putstr_fd("Wrong number of args\n", 2);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	while (argv[i])
 	{
 		if (!argv[i] || only_space(argv[i]) || argv[i][0] == '\0')
 		{
 			ft_putstr_fd("Arg empty\n", 2);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
-		i++;
-	}
-}
-
-void	close_all_pipes(t_pip *struc)
-{
-	int	i;
-
-	i = 0;
-	while (i < struc->nb_pipes)
-	{
-		close(struc->pipes[i][0]);
-		close(struc->pipes[i][1]);
 		i++;
 	}
 }

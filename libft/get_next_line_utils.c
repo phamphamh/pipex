@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:40:20 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 09:46:02 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 07:54:44 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str[j] = 0;
 	return (str);
 }
-

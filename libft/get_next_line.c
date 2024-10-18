@@ -6,19 +6,19 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:38:32 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 09:45:54 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 07:42:39 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*function_name(int fd, char *buf, char *backup)
+static char	*get_line(int fd, char *buf, char *backup)
 {
 	int		read_line;
 	char	*char_temp;
 
 	read_line = 1;
-	while (read_line != '\0')
+	while (read_line != 0)
 	{
 		read_line = read(fd, buf, BUFFER_SIZE);
 		if (read_line == -1)
@@ -69,7 +69,7 @@ char	*get_next_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (0);
-	line = function_name(fd, buf, backup);
+	line = get_line(fd, buf, backup);
 	free(buf);
 	buf = NULL;
 	if (!line)

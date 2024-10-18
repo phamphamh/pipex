@@ -6,13 +6,13 @@
 #    By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 18:53:41 by yboumanz          #+#    #+#              #
-#    Updated: 2024/10/17 12:25:26 by yboumanz         ###   ########.fr        #
+#    Updated: 2024/10/18 08:24:23 by yboumanz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = pipex.c utils.c path.c process.c dup.c
+SRCS = pipex.c utils.c path.c process.c dup.c errors.c
 OBJS = $(SRCS:.c=.o)
 
 LIBDIR = libft

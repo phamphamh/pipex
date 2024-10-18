@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/09 20:38:33 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 08:53:17 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*find_path(char **env)
 	while (env[i])
 	{
 		if (ft_strcmp_env("PATH=", env[i]) == 0)
-			return(env[i]);
+			return (env[i]);
 		i++;
 	}
 	return (NULL);
@@ -37,17 +37,11 @@ char	*join_paths(char **paths, char *cmd)
 	{
 		full_path = ft_strjoin(paths[i], "/");
 		if (!full_path)
-		{
-			free(full_path);
-			break;
-		}
+			break ;
 		path = ft_strjoin(full_path, cmd);
-		if (!path)
-		{
-			free(path);
-			break;
-		}
 		free(full_path);
+		if (!path)
+			break ;
 		if (access(path, F_OK | X_OK) == 0)
 		{
 			free_all(paths);
@@ -57,7 +51,7 @@ char	*join_paths(char **paths, char *cmd)
 		i++;
 	}
 	free_all(paths);
-	return (NULL);
+	return (path);
 }
 
 char	*check_path(char *cmd, char **env)
@@ -67,14 +61,14 @@ char	*check_path(char *cmd, char **env)
 
 	path = find_path(env);
 	if (!path)
-		return(NULL);
+		return (NULL);
 	paths = ft_split(path + 5, ':');
 	return (join_paths(paths, cmd));
 }
 
 bool	find_count_exe(char **argv, int argc, t_pip *struc)
 {
-	int 	i;
+	int		i;
 	int		res;
 
 	i = 0;

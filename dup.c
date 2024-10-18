@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:01:08 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 18:00:05 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 07:59:46 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	open_fd_in(t_pip *struc)
 	if (struc->fd < 0)
 	{
 		ft_putstr_fd(struc->argv[struc->exec_pos + 1], 2);
-		ft_putstr_fd(" : No such file or directory", 2);
+		ft_putstr_fd(" : No such file or directory\n", 2);
 	}
 }
 
@@ -37,9 +37,11 @@ void	open_fd_out(t_pip *struc)
 
 	i = ft_strllen(struc->argv);
 	if (struc->here_doc == -2)
-		struc->fd = open(struc->argv[i - 1] ,O_WRONLY | O_CREAT | O_APPEND, 0644);
+		struc->fd = open(struc->argv[i - 1],
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		struc->fd = open(struc->argv[i - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		struc->fd = open(struc->argv[i - 1],
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (struc->fd < 0)
 		handle_error("", struc, 0);
 }

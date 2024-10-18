@@ -59,6 +59,7 @@
   "files.associations": {
     "wait.h": "c",
     "stdbool.h": "c",
-    "stdint.h": "c"
+    "stdint.h": "c",
+    "pipex.h": "c"
   }
 }

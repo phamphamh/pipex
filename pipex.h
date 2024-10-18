@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/11 20:42:39 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 08:25:01 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,25 @@ char	*check_path(char *cmd, char **env);
 
 //utils
 int		ft_strcmp_env(const char *s1, const char *s2);
-void	free_all(char **split);
 int		ft_strllen(char **str);
 bool	only_space(char *str);
-void	handle_error(char *message, t_pip *struc, int nb_error);
 int		ft_strcmp_trimmed(const char *s1, const char *s2);
-void	gnl_clear(void);
-void	ft_close(int *fd);
+void	close_all_pipes(t_pip *struc);
+
+//errors
+void	free_all(char **split);
+void	handle_error(char *message, t_pip *struc, int nb_error);
+void	free_parent(t_pip *struc, int idx);
 void	free_pipes(t_pip *struc);
+void	return_message(char *message, int nb_error);
 
 //dup
 void	open_fd_out(t_pip *struc);
 void	open_fd_in(t_pip *struc);
-void	handle_mid_cmd(t_pip *struc);
-void	handle_last_cmd(t_pip *struc);
-void	handle_first_cmd(t_pip *struc);
 
 //process
 void	ft_execve(t_pip *struc);
+void	dup_child(t_pip *struc, int idx);
 pid_t	handle_child(t_pip *struc, int idx);
 void	set_here_doc(t_pip *struc);
 void	set_cmd_args(t_pip *struc, int idx);
@@ -73,6 +74,5 @@ void	init_pipes(t_pip *struc);
 void	parse_args(char **argv, int argc, t_pip *struc);
 int		main(int argc, char **argv, char **env);
 void	wait_for_children(t_pip *struc);
-void	close_all_pipes(t_pip *struc);
 
 #endif

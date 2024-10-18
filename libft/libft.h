@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:00:54 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/17 09:46:19 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/18 07:54:53 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 char	*get_next_line(int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-
 
 char	**ft_free_all(char **split, size_t j);
 char	*ft_strchr(const char *str, int c);
