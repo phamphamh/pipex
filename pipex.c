@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 21:28:56 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 21:31:02 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ void	init_pipes(t_pip *struc)
 
 void	parse_args(char **argv, int argc, t_pip *struc)
 {
-	int	i;
-
-	i = 0;
 	if (!find_count_exe(argv, argc, struc))
 	{
 		ft_putstr_fd("Wrong number of args\n", 2);
