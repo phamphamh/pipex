@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:39:47 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/18 08:53:17 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:46:44 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*join_paths(char **paths, char *cmd)
 		i++;
 	}
 	free_all(paths);
-	return (path);
+	return (NULL);
 }
 
 char	*check_path(char *cmd, char **env)
@@ -63,6 +63,12 @@ char	*check_path(char *cmd, char **env)
 	if (!path)
 		return (NULL);
 	paths = ft_split(path + 5, ':');
+	if (!paths)
+	{
+		free_all(paths);
+		paths = NULL;
+		return (NULL);
+	}
 	return (join_paths(paths, cmd));
 }
 

@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/18 09:10:48 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:48:50 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,14 @@ void	set_cmd_args(t_pip *struc, int idx)
 	int	i;
 
 	if (struc->here_doc == -2 || struc->here_doc >= 0)
-	{
 		i = idx + struc->exec_pos + 3;
-	}
 	else
 		i = idx + struc->exec_pos + 2;
+	if (struc->cmd_args)
+		free_all(struc->cmd_args);
 	struc->cmd_args = ft_split(struc->argv[i], ' ');
-    if (struc->cmd_path)
-    {
-        free(struc->cmd_path);
-        struc->cmd_path = NULL;
-    }
+	if (struc->cmd_path)
+		free(struc->cmd_path);
 	if (struc->cmd_args[0][0] == '/')
 		struc->cmd_path = ft_strdup(struc->cmd_args[0]);
 	else
@@ -108,22 +105,20 @@ void	dup_child(t_pip *struc, int idx)
 pid_t	handle_child(t_pip *struc, int idx)
 {
 	pid_t	pid;
-	int		i;
 
-	i = 0;
 	set_cmd_args(struc, idx);
+	if (!struc->cmd_path)
+	{
+		ft_putstr_fd(struc->cmd_args[0], 2);
+		handle_error(" : command not found", struc, 127);
+	}
 	pid = fork();
 	if (pid == -1)
 		handle_error("fork failed", struc, 0);
 	if (pid == 0)
 	{
 		dup_child(struc, idx);
-		while (i < struc->nb_pipes)
-		{
-			close(struc->pipes[i][0]);
-			close(struc->pipes[i][1]);
-			i++;
-		}
+		close_all_pipes(struc);
 		ft_execve(struc);
 	}
 	else

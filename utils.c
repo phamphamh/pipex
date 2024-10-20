@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 21:09:03 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/18 08:02:01 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 19:07:18 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ void	close_all_pipes(t_pip *struc)
 	i = 0;
 	while (i < struc->nb_pipes)
 	{
-		close(struc->pipes[i][0]);
-		close(struc->pipes[i][1]);
+		if (struc->pipes[i])
+		{
+			close(struc->pipes[i][1]);
+			close(struc->pipes[i][0]);
+		}
 		i++;
 	}
 }
