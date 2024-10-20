@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 19:48:50 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:43:33 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ pid_t	handle_child(t_pip *struc, int idx)
 	if (!struc->cmd_path)
 	{
 		ft_putstr_fd(struc->cmd_args[0], 2);
-		handle_error(" : command not found", struc, 127);
+		//handle_error(" : command not found", struc, 127);
 	}
 	pid = fork();
 	if (pid == -1)
