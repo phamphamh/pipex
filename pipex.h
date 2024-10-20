@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 18:54:48 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/18 08:25:01 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 22:18:35 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_pip
 	int		exec_pos;
 	int		nb_cmds;
 	int		exit_status;
+	int		argc;
 }			t_pip;
 
 // path

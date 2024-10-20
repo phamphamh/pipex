@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 21:31:02 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 22:21:26 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_things(t_pip *struc, char **env, char **argv, int argc)
 	struc->pids = NULL;
 	struc->cmd_args = NULL;
 	struc->cmd_path = NULL;
+	struc->argc = argc;
 	if (struc->here_doc >= 0)
 	{
 		struc->nb_cmds = argc - 4;
@@ -95,7 +96,6 @@ int	main(int argc, char **argv, char **env)
 
 	parse_args(argv, argc, &struc);
 	init_things(&struc, env, argv, argc);
-	open_fd_in(&struc);
 	i = 0;
 	while (i < struc.nb_cmds)
 	{

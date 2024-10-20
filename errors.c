@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 08:00:39 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 19:44:09 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 22:22:59 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	free_parent(t_pip *struc, int idx)
 {
-	if (struc->fd != -1)
-		close(struc->fd);
 	if (idx > 0)
 		close(struc->pipes[idx - 1][0]);
 	if (idx < struc->nb_cmds - 1)
@@ -79,6 +77,8 @@ void	handle_error(char *message, t_pip *struc, int nb_error)
 		close_all_pipes(struc);
 		free_pipes(struc);
 	}
+	if (struc->fd)
+		close(struc->fd);
 	if (struc->cmd_path)
 	{
 		free(struc->cmd_path);

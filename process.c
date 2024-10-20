@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 21:29:17 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 22:39:21 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ void	dup_child(t_pip *struc, int idx)
 {
 	if (idx == 0)
 	{
+		open_fd_in(struc);
 		dup2(struc->fd, STDIN_FILENO);
-		if (struc->fd != -1)
-			close(struc->fd);
+		close(struc->fd);
 		dup2(struc->pipes[0][1], STDOUT_FILENO);
 	}
 	else if (idx == struc->nb_cmds - 1)
