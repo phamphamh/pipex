@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 19:28:05 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 19:05:02 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 21:01:40 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	parse_args(char **argv, int argc, t_pip *struc)
 		ft_putstr_fd("Wrong number of args\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	/*
 	while (argv[i])
 	{
 		if (!argv[i] || only_space(argv[i]) || argv[i][0] == '\0')
@@ -83,6 +84,7 @@ void	parse_args(char **argv, int argc, t_pip *struc)
 		}
 		i++;
 	}
+	*/
 }
 
 void	wait_for_children(t_pip *struc)
