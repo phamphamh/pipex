@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/20 21:27:13 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/20 21:29:17 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	set_cmd_args(t_pip *struc, int idx)
 	else
 		i = idx + struc->exec_pos + 2;
 	if (!struc->argv[i] || only_space(struc->argv[i])
-			|| struc->argv[i][0] == '\0')
+		|| struc->argv[i][0] == '\0')
 		return ;
 	if (struc->cmd_args)
 		free_all(struc->cmd_args);
@@ -64,9 +64,7 @@ void	set_cmd_args(t_pip *struc, int idx)
 void	ft_execve(t_pip *struc)
 {
 	if (!struc->cmd_args)
-	{
 		handle_error(" : command not found", struc, 0);
-	}
 	if (!struc->cmd_path)
 	{
 		ft_putstr_fd(struc->cmd_args[0], 2);
@@ -114,13 +112,6 @@ pid_t	handle_child(t_pip *struc, int idx)
 	pid_t	pid;
 
 	set_cmd_args(struc, idx);
-	/*
-	if (!struc->cmd_path)
-	{
-		ft_putstr_fd(struc->cmd_args[0], 2);
-		handle_error(" : command not found", struc, 127);
-	}
-	*/
 	pid = fork();
 	if (pid == -1)
 		handle_error("fork failed", struc, 0);
