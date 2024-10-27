@@ -6,7 +6,7 @@
 /*   By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 02:40:16 by yboumanz          #+#    #+#             */
-/*   Updated: 2024/10/27 00:41:25 by yboumanz         ###   ########.fr       */
+/*   Updated: 2024/10/27 14:35:59 by yboumanz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	set_cmd_args(t_pip *struc)
 	if (struc->cmd_path)
 		free(struc->cmd_path);
 	if (struc->cmd_args[0][0] == '/')
-		struc->cmd_path = ft_strdup(struc->cmd_args[0]);
-	else if (struc->cmd_args[0][0] == '.' && struc->cmd_args[0][1] == '/')
 		struc->cmd_path = ft_strdup(struc->cmd_args[0]);
 	else
 		struc->cmd_path = check_path(struc->cmd_args[0], struc->env);

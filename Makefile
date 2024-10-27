@@ -6,7 +6,7 @@
 #    By: yboumanz <yboumanz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 18:53:41 by yboumanz          #+#    #+#              #
-#    Updated: 2024/10/26 23:27:00 by yboumanz         ###   ########.fr        #
+#    Updated: 2024/10/27 14:40:15 by yboumanz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = pipex
 NAME_BONUS = pipex_bonus
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
 
 LIBFT_DIR = libft
